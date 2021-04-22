@@ -28,12 +28,16 @@ pub fn get_twemoji_codepoint(emoji: &str) -> String {
 
 pub fn generate_remote_url(emoji: &str, output: EmojiOutputType) -> String {
     format!(
-        "https://twemoji.maxcdn.com/v/latest/{}/{}.svg",
+        "https://twemoji.maxcdn.com/v/latest/{}/{}.{}",
         match output {
             EmojiOutputType::SVG => "svg",
             EmojiOutputType::Laster => "72x72"
         },
-        get_twemoji_codepoint(emoji)
+        get_twemoji_codepoint(emoji),
+        match output {
+            EmojiOutputType::SVG => "svg",
+            EmojiOutputType::Laster => "png"
+        }
     ).to_string()
 }
 
