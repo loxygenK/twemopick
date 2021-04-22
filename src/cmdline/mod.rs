@@ -1,10 +1,7 @@
-use clap::{App, Arg, ArgMatches};
+use clap::{Arg, ArgMatches, crate_name, crate_authors, crate_version, crate_description, app_from_crate};
 
 pub fn get_command_args<'a>() -> ArgMatches<'a> {
-    return App::new("TwEmoPick")
-        .version("1.0.0")
-        .author("Flisan <me@loxygen.dev")
-        .about("Pick twemoji pictures from Unicode emoji.")
+    return app_from_crate!()
         .arg(
             Arg::with_name("emoji")
                 .help("Emoji to convert into Twemoji.")
