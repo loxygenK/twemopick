@@ -5,7 +5,7 @@ use cmdline::get_command_args;
 use twemoji::{get_twemoji_codepoint, generate_remote_url, fetch_emoji, EmojiOutputType};
 
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<(), ()> {
 
     let args = get_command_args();
     let emoji = args.value_of("emoji").expect("wtf - required didn't work");
@@ -15,15 +15,14 @@ async fn main() {
     println!("--> Trying to fetch...");
 
     let data = fetch_emoji(emoji, EmojiOutputType::SVG).await;
-    match data {
-        Ok(data) => println!("Fetched: {} bytes.", data.len()),
-        Err(e) => println!("Error emitted!! {:?}", e)
+    if let Err(e) = data {
+        println!("Error occurred when trying to fetch emoji:");
+        println!("{:?}", e);
+        return Err(());
     }
+    let data = data.unwrap();
 
-    let data = fetch_emoji(emoji, EmojiOutputType::Laster).await;
-    match data {
-        Ok(data) => println!("Fetched: {} bytes.", data.len()),
-        Err(e) => println!("Error emitted!! {:?}", e)
-    }
+    println!("Fetched {} bytes.", data.len());
 
+    Ok(())
 }
