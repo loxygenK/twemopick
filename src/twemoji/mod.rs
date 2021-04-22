@@ -1,3 +1,5 @@
+use reqwest::{Error, get};
+
 pub enum EmojiOutputType {
     SVG,
     Laster
@@ -33,4 +35,14 @@ pub fn generate_remote_url(emoji: &str, output: EmojiOutputType) -> String {
         },
         get_twemoji_codepoint(emoji)
     ).to_string()
+}
+
+pub async fn fetch_emoji(emoji: &str, output: EmojiOutputType) -> Result<Vec<u8>, Error> {
+    Ok(
+        get(generate_remote_url(emoji, output))
+            .await?
+            .bytes()
+            .await?
+            .to_vec()
+    )
 }
