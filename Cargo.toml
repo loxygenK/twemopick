@@ -1,5 +1,5 @@
 [package]
-name = "TwEmoPick"
+name = "twemopick"
 version = "0.1.0"
 authors = ["loxygenK <me@loxygen.dev>"]
 edition = "2018"
