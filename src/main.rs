@@ -1,14 +1,13 @@
 mod cmdline;
 mod emoji;
 
-use cmdline::get_command_args;
-use emoji::get_emoji_codepoint;
-
 fn main() {
 
-    let args = get_command_args();
-    let emoji = args.value_of("emoji").expect("wtf - required didn't work");
-    println!("Selected: {}", &emoji);
-    println!("Code: {}", get_emoji_codepoint(emoji));
+    let args = cmdline::parse_argument();
+    let url = emoji::url::get_emoji_dataurl(
+        &emoji::codepoint::get_emoji_codepoint(&args.character),
+        &args.image_type
+    );
 
+    print!("{}", &url);
 }
